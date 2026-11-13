@@ -28,6 +28,7 @@
       <button type="submit">Login</button>
     </form>
     <div class="error" id="error"></div>
+    <div class="success" id="success"></div>
     <script>
       document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -41,15 +42,15 @@
         });
         const data = await res.json();
         const el = document.getElementById('error');
+        const successEl = document.getElementById('success');
+        errorEl.style.display = 'none';
+        successEl.style.display = 'block';
         if (data && data.success) {
-          el.style.display = 'block';
-          el.textContent = 'Login berhasil!';
-          el.style.color = '#1a7a1a';
-          setTimeout(() => { window.location.href = 'http://localhost:3000/welcome'; }, 1500);
+          successEl.textContent = 'Login berhasil!';
+          successEl.style.color = '#1a7a1a';
         } else {
-          el.style.display = 'block';
-          el.textContent = data && data.message ? data.message : 'Login gagal.';
-          el.style.color = '#b91c1c';
+          successEl.textContent = data && data.message ? data.message : 'Login gagal.';
+          successEl.style.color = '#b91c1c';
         }
       });
     </script>
