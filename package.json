@@ -1,0 +1,10 @@
+{
+  "name": "login-app",
+  "version": "1.0.0",
+  "description": "Halaman login sederhana (default: user / password) yang dijalankan di Docker",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "MIT"
+}
